@@ -3,13 +3,22 @@ let leagueData = { leagueName: "", teams: [], matches: [] };
 // Fetch data.json automatically when the page opens
 window.onload = function() {
     fetch('data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status} (Make sure data.json is uploaded)`);
+            }
+            return response.json();
+        })
         .then(data => {
             leagueData = data;
             renderPublicView();
         })
         .catch(error => {
             console.error('Error loading league data:', error);
+            document.getElementById('publicStandingsBody').innerHTML = 
+                `<tr><td colspan="10" style="color: #ff4d4d; font-size: 0.8rem; padding: 15px;">⚠️ Failed to load data.json<br><small>${error.message}</small></td></tr>`;
+            document.getElementById('publicFixturesList').innerHTML = 
+                `<p style="text-align: center; color: #ff4d4d; font-size: 0.85rem; padding: 15px;">⚠️ Error loading fixtures from data.json.<br>Check file location in GitHub repository.</p>`;
         });
 };
 
@@ -21,37 +30,44 @@ function switchTab(tab) {
 }
 
 function renderPublicView() {
-    document.getElementById('publicLeagueTitle').innerText = `🎮 ${leagueData.leagueName}`;
+    document.getElementById('publicLeagueTitle').innerText = `🎮 ${leagueData.leagueName || 'League'}`;
     renderPublicStandings();
     renderPublicFixtures();
 }
 
 function renderPublicStandings() {
     let stats = {};
+    if (!leagueData.teams) return;
+
     leagueData.teams.forEach(t => {
         stats[t] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, pts: 0 };
     });
 
-    leagueData.matches.forEach(m => {
-        if (m.homeScore !== null && m.awayScore !== null) {
-            const home = stats[m.homeTeam];
-            const away = stats[m.awayTeam];
+    if (leagueData.matches) {
+        leagueData.matches.forEach(m => {
+            if (m.homeScore !== null && m.awayScore !== null && m.homeScore !== "" && m.awayScore !== "") {
+                const home = stats[m.homeTeam];
+                const away = stats[m.awayTeam];
 
-            if (home && away) {
-                home.played++; away.played++;
-                home.gf += m.homeScore; home.ga += m.awayScore;
-                away.gf += m.awayScore; away.ga += m.homeScore;
+                if (home && away) {
+                    const hScore = parseInt(m.homeScore, 10);
+                    const aScore = parseInt(m.awayScore, 10);
 
-                if (m.homeScore > m.awayScore) {
-                    home.won++; home.pts += 3; away.lost++;
-                } else if (m.homeScore < m.awayScore) {
-                    away.won++; away.pts += 3; home.lost++;
-                } else {
-                    home.drawn++; away.drawn++; home.pts += 1; away.pts += 1;
+                    home.played++; away.played++;
+                    home.gf += hScore; home.ga += aScore;
+                    away.gf += aScore; away.ga += hScore;
+
+                    if (hScore > aScore) {
+                        home.won++; home.pts += 3; away.lost++;
+                    } else if (hScore < aScore) {
+                        away.won++; away.pts += 3; home.lost++;
+                    } else {
+                        home.drawn++; away.drawn++; home.pts += 1; away.pts += 1;
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 
     Object.keys(stats).forEach(t => { stats[t].gd = stats[t].gf - stats[t].ga; });
 
@@ -92,7 +108,7 @@ function renderPublicFixtures() {
     const container = document.getElementById('publicFixturesList');
     if (!container) return;
 
-    if (leagueData.matches.length === 0) {
+    if (!leagueData.matches || leagueData.matches.length === 0) {
         container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">No fixtures generated yet.</p>`;
         return;
     }
@@ -106,7 +122,7 @@ function renderPublicFixtures() {
             html += `<div class="round-title">Round ${currentRound}</div>`;
         }
 
-        const isPlayed = m.homeScore !== null && m.awayScore !== null;
+        const isPlayed = m.homeScore !== null && m.awayScore !== null && m.homeScore !== "" && m.awayScore !== "";
         const scoreText = isPlayed ? `${m.homeScore} - ${m.awayScore}` : `VS`;
         const badgeClass = isPlayed ? 'score-badge' : 'score-badge pending';
 
