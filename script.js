@@ -20,10 +20,40 @@ function switchTab(tab) {
     document.getElementById('fixturesView').style.display = tab === 'fixtures' ? 'block' : 'none';
 }
 
-function renderPublicView() {
-    document.getElementById('publicLeagueTitle').innerText = `🎮 ${leagueData.leagueName}`;
-    renderPublicStandings();
-    renderPublicFixtures();
+function renderPublicFixtures() {
+    const container = document.getElementById('publicFixturesList');
+    if (!container) return;
+
+    if (!leagueData.matches || leagueData.matches.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">No fixtures available in data.json.</p>`;
+        return;
+    }
+
+    let html = '';
+    let currentRound = 0;
+
+    leagueData.matches.forEach(m => {
+        if (m.round !== currentRound) {
+            currentRound = m.round;
+            html += `<div class="round-header-gold">Round ${currentRound}</div>`;
+        }
+
+        const isPlayed = m.homeScore !== null && m.awayScore !== null && m.homeScore !== "" && m.awayScore !== "";
+        const scoreText = isPlayed ? `${m.homeScore} - ${m.awayScore}` : `VS`;
+        const badgeClass = isPlayed ? 'score-badge-pill' : 'score-badge-pill pending';
+
+        html += `
+            <div class="fixture-card-modern">
+                <span class="fixture-team-name home">${m.homeTeam}</span>
+                <span class="${badgeClass}">${scoreText}</span>
+                <span class="fixture-team-name away">${m.awayTeam}</span>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
 }
 
 function renderPublicStandings() {
