@@ -1,16 +1,16 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
 :root {
-    --bg-dark: #0a100d;
-    --card-bg: rgba(16, 26, 20, 0.85);
-    --border-color: rgba(255, 255, 255, 0.08);
+    --bg-dark: #080d0a;
+    --card-bg: #0e1511;
+    --card-header-bg: #121c17;
+    --border-color: rgba(255, 255, 255, 0.05);
     --primary-green: #10b981;
     --accent-mint: #34d399;
     --gold: #ffb703;
     --text-main: #ffffff;
-    --text-muted: #9ca3af;
-    --badge-bg: #121c16;
-    --hover-glow: rgba(16, 185, 129, 0.25);
+    --text-muted: #6b7280;
+    --row-hover: rgba(255, 255, 255, 0.03);
 }
 
 * {
@@ -21,103 +21,135 @@
 }
 
 body {
-    background: radial-gradient(circle at top center, #132219 0%, #0a100d 100%);
+    background: #080d0a;
     color: var(--text-main);
     min-height: 100vh;
-    padding: 10px 8px;
+    padding: 12px 10px;
     display: flex;
     justify-content: center;
 }
 
 .container {
     width: 100%;
-    max-width: 900px;
+    max-width: 480px; /* Mobile focused width */
 }
 
-/* --- Header Section (Compact) --- */
-.header {
-    text-align: center;
+/* --- Logo Circle Frame --- */
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
     margin-bottom: 12px;
-    padding: 10px 15px;
-    background: var(--card-bg);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-.header h1 {
-    font-size: 1.5rem;
+.logo-circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-green);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050806;
+    overflow: hidden;
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Header Text --- */
+.header-text {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.header-text h1 {
+    font-size: 1.35rem;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--accent-mint), var(--primary-green), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+    color: #ffffff;
 }
 
-.header p {
-    color: var(--text-muted);
-    font-size: 0.82rem;
+.header-text .subtitle {
+    font-size: 0.78rem;
+    color: var(--primary-green);
     font-weight: 500;
 }
 
-/* --- Navigation Tabs (Compact) --- */
+/* --- Navigation Tabs --- */
 .tab-nav {
     display: flex;
     gap: 8px;
-    margin-bottom: 12px;
-    justify-content: center;
+    margin-bottom: 14px;
 }
 
 .tab-btn {
     flex: 1;
-    max-width: 220px;
-    padding: 8px 14px;
-    font-size: 0.85rem;
+    padding: 10px;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--text-muted);
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: #0d1410;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(6px);
-}
-
-.tab-btn:hover {
-    color: var(--text-main);
-    border-color: var(--primary-green);
-    box-shadow: 0 0 10px var(--hover-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .tab-btn.active {
-    color: #ffffff;
-    background: linear-gradient(135deg, var(--accent-mint) 0%, var(--primary-green) 100%);
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    color: #050806;
+    background: var(--primary-green);
+    border-color: var(--primary-green);
 }
 
-/* --- Card Containers (Compact) --- */
+/* --- Card Container --- */
 .card {
     background: var(--card-bg);
-    border-radius: 14px;
-    padding: 14px 16px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.card-header {
+    background: var(--card-header-bg);
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .card-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: var(--accent-mint);
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #ffffff;
     letter-spacing: 0.5px;
 }
 
-/* --- Standings Table (Tight Spacing) --- */
+.played-badge {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--primary-green);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+}
+
+/* --- Table Styling --- */
 .table-container {
     overflow-x: auto;
 }
@@ -125,113 +157,114 @@ body {
 .standings-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
 }
 
 .standings-table th {
-    background: rgba(255, 255, 255, 0.04);
+    padding: 8px 4px;
     color: var(--text-muted);
     font-weight: 700;
-    padding: 6px 6px;
-    text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--border-color);
+    font-size: 0.7rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .standings-table td {
-    padding: 7px 6px;
+    padding: 8px 4px;
     text-align: center;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-main); /* All team names and stats render in white */
-    transition: background 0.15s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: #ffffff;
 }
 
-.standings-table tr:hover td {
-    background: rgba(255, 255, 255, 0.04);
+.standings-table tr:nth-child(1) {
+    background: rgba(255, 183, 3, 0.04);
 }
 
-/* Position and Points Columns */
-.standings-table .pos {
-    font-weight: 700;
-    color: var(--accent-mint);
-}
-
-.standings-table .pts {
-    font-weight: 800;
-    color: var(--gold);
-    font-size: 0.95rem;
-}
-
-/* --- Fixtures & Results (Tight Spacing) --- */
-.round-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--gold);
-    margin: 14px 0 6px 0;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--border-color);
+.team-cell {
     display: flex;
     align-items: center;
     gap: 6px;
+    font-weight: 600;
+    color: #ffffff;
 }
 
-.round-title:first-child {
-    margin-top: 0;
+.crown {
+    color: var(--gold);
+    font-size: 0.75rem;
 }
 
-.fixture-card {
-    display: flex;
-    justify-content: space-between;
+/* Position Badges */
+.pos-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
     align-items: center;
-    background: var(--badge-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 6px 12px;
-    margin-bottom: 6px;
-    transition: all 0.2s ease;
-}
-
-.fixture-card:hover {
-    border-color: rgba(52, 211, 153, 0.4);
-    transform: scale(1.005);
-}
-
-.fixture-team {
-    flex: 1;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.fixture-team.home {
-    text-align: right;
-    padding-right: 8px;
-    color: #e0e6ed;
-}
-
-.fixture-team.away {
-    text-align: left;
-    padding-left: 8px;
-    color: #e0e6ed;
-}
-
-/* Score Badges */
-.score-badge {
-    background: linear-gradient(135deg, var(--accent-mint), var(--primary-green));
-    color: #000;
+    justify-content: center;
+    font-size: 0.7rem;
     font-weight: 800;
-    font-size: 0.8rem;
-    padding: 3px 12px;
-    border-radius: 14px;
-    min-width: 60px;
-    text-align: center;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
+    margin: 0 auto;
 }
 
-.score-badge.pending {
-    background: rgba(255, 255, 255, 0.06);
+.pos-badge.rank-1 {
+    background: var(--gold);
+    color: #000;
+}
+
+.pos-badge.rank-top {
+    background: var(--primary-green);
+    color: #000;
+}
+
+.pos-badge.rank-normal {
     color: var(--text-muted);
-    font-weight: 600;
-    box-shadow: none;
-    border: 1px solid var(--border-color);
+}
+
+.pts-head, .pts {
+    color: var(--primary-green) !important;
+    font-weight: 800 !important;
+}
+
+/* --- Legend Bar --- */
+.legend-bar {
+    padding: 10px 12px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot.gold { background: var(--gold); }
+.dot.green { background: var(--primary-green); }
+
+.tiebreaker {
+    margin-left: auto;
+    font-size: 0.65rem;
+}
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.sub-footer {
+    font-size: 0.65rem;
+    margin-top: 2px;
+    opacity: 0.6;
 }
