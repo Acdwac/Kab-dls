@@ -2,25 +2,40 @@ let leagueData = { leagueName: "KAB DLS 1.1 LEAGUE", teams: [], matches: [] };
 
 window.onload = function() {
     fetch('data.json')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("HTTP Error " + res.status);
+            return res.json();
+        })
         .then(data => {
             leagueData = data;
             renderPublicView();
         })
         .catch(err => {
             console.error('Error fetching data.json:', err);
+            const body = document.getElementById('publicStandingsBody');
+            if (body) {
+                body.innerHTML = `<tr><td colspan="10" style="color: #ef4444; padding: 12px;">⚠️ Error loading data.json</td></tr>`;
+            }
         });
 };
 
 function switchTab(tab) {
-    document.getElementById('tabTableBtn').classList.toggle('active', tab === 'table');
-    document.getElementById('tabFixturesBtn').classList.toggle('active', tab === 'fixtures');
-    document.getElementById('tableView').style.display = tab === 'table' ? 'block' : 'none';
-    document.getElementById('fixturesView').style.display = tab === 'fixtures' ? 'block' : 'none';
+    const tableBtn = document.getElementById('tabTableBtn');
+    const fixturesBtn = document.getElementById('tabFixturesBtn');
+    const tableView = document.getElementById('tableView');
+    const fixturesView = document.getElementById('fixturesView');
+
+    if (tableBtn && fixturesBtn && tableView && fixturesView) {
+        tableBtn.classList.toggle('active', tab === 'table');
+        fixturesBtn.classList.toggle('active', tab === 'fixtures');
+        tableView.style.display = tab === 'table' ? 'block' : 'none';
+        fixturesView.style.display = tab === 'fixtures' ? 'block' : 'none';
+    }
 }
 
 function renderPublicView() {
     renderPublicStandings();
+    renderPublicFixtures();
 }
 
 function renderPublicStandings() {
@@ -59,7 +74,10 @@ function renderPublicStandings() {
         });
     }
 
-    document.getElementById('matchProgress').innerText = `${playedCount} / ${leagueData.matches.length || 132} Played`;
+    const matchProgress = document.getElementById('matchProgress');
+    if (matchProgress) {
+        matchProgress.innerText = `${playedCount} / ${leagueData.matches ? leagueData.matches.length : 132} Played`;
+    }
 
     Object.keys(stats).forEach(t => { stats[t].gd = stats[t].gf - stats[t].ga; });
 
@@ -101,4 +119,38 @@ function renderPublicStandings() {
             </tr>
         `;
     }).join('');
+}
+
+function renderPublicFixtures() {
+    const container = document.getElementById('publicFixturesList');
+    if (!container) return;
+
+    if (!leagueData.matches || leagueData.matches.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">No fixtures available in data.json.</p>`;
+        return;
+    }
+
+    let html = '';
+    let currentRound = 0;
+
+    leagueData.matches.forEach(m => {
+        if (m.round !== currentRound) {
+            currentRound = m.round;
+            html += `<div class="round-header">ROUND ${currentRound}</div>`;
+        }
+
+        const isPlayed = m.homeScore !== null && m.awayScore !== null && m.homeScore !== "" && m.awayScore !== "";
+        const scoreText = isPlayed ? `${m.homeScore} - ${m.awayScore}` : `VS`;
+        const badgeClass = isPlayed ? 'score-badge played' : 'score-badge pending';
+
+        html += `
+            <div class="fixture-row">
+                <span class="fixture-team home">${m.homeTeam}</span>
+                <span class="${badgeClass}">${scoreText}</span>
+                <span class="fixture-team away">${m.awayTeam}</span>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
 }
