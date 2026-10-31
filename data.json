@@ -41,14 +41,14 @@
     { "id": 20, "round": 4, "homeTeam": "mark fc", "awayTeam": "ABAKAREERE", "homeScore": null, "awayScore": null },
     { "id": 21, "round": 4, "homeTeam": "Phoenix FC", "awayTeam": "KICHWAMBA", "homeScore": null, "awayScore": null },
     { "id": 22, "round": 4, "homeTeam": "The colds", "awayTeam": "TITANZ", "homeScore": 2, "awayScore": 0 },
-    { "id": 23, "round": 4, "homeTeam": "Fire House", "awayTeam": "GAB", "homeScore": null, "awayScore": null },
+    { "id": 23, "round": 4, "homeTeam": "Fire House", "awayTeam": "GAB", "homeScore": 2, "awayScore": 0 },
 
     { "id": 24, "round": 5, "homeTeam": "Random x", "awayTeam": "ARYN", "homeScore": null, "awayScore": null },
     { "id": 25, "round": 5, "homeTeam": "SC BOMBERS", "awayTeam": "ABAKAREERE", "homeScore": null, "awayScore": null },
     { "id": 26, "round": 5, "homeTeam": "JULLIC FC", "awayTeam": "KICHWAMBA", "homeScore": 1, "awayScore": 2 },
     { "id": 27, "round": 5, "homeTeam": "mark fc", "awayTeam": "TITANZ", "homeScore": null, "awayScore": null },
     { "id": 28, "round": 5, "homeTeam": "Phoenix FC", "awayTeam": "GAB", "homeScore": null, "awayScore": null },
-    { "id": 29, "round": 5, "homeTeam": "The colds", "awayTeam": "Fire House", "homeScore": null, "awayScore": null },
+    { "id": 29, "round": 5, "homeTeam": "The colds", "awayTeam": "Fire House", "homeScore": 0, "awayScore": 2 },
 
     { "id": 30, "round": 6, "homeTeam": "Random x", "awayTeam": "ABAKAREERE", "homeScore": null, "awayScore": null },
     { "id": 31, "round": 6, "homeTeam": "ARYN", "awayTeam": "KICHWAMBA", "homeScore": 5, "awayScore": 2 },
